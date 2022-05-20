@@ -12,7 +12,7 @@ function HomeRightbar(): JSX.Element {
     <>
       <div className={styles.birthdayContainer}>
         <img className={styles.birthdayImg} src="../assets/gift.png" alt="birthday" />
-        <span className={styles.birthdayText}>
+        <span className={styles.birthdayTextContent}>
           <strong>Pola Foster</strong> and <strong>3 other friends</strong> have a birthday today.
         </span>
       </div>
