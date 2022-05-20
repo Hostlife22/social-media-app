@@ -1,4 +1,10 @@
-export const Users = [
+export interface IUser {
+  id: number;
+  profilePicture: string;
+  username: string;
+}
+
+export const Users: IUser[] = [
   {
     id: 1,
     profilePicture: 'assets/person/1.jpeg',

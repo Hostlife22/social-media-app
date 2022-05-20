@@ -1,4 +1,6 @@
 .sidebar {
+  position: sticky;
+  top: 50px;
   flex: 3;
   height: calc(100vh - 50px);
   overflow-y: scroll;
@@ -53,18 +55,4 @@
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.sidebarFriend {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.sidebarFriendImg {
-  width: 32px;
-  height: 32px;
-  margin-right: 10px;
-  object-fit: cover;
-  border-radius: 50%;
 }

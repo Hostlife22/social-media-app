@@ -8,7 +8,14 @@ interface IPostProps {
 }
 
 function Post({ post }: IPostProps): JSX.Element {
+  const [like, setLike] = React.useState<number>(post.like);
+  const [isLiked, setIsLiked] = React.useState<boolean>(false);
   const user = Users.filter((u) => u.id === post.userId)[0];
+
+  const likeHandler = () => {
+    setLike((prev) => (isLiked ? prev - 1 : prev + 1));
+    setIsLiked((prev) => !prev);
+  };
 
   return (
     <div className={styles.post}>
@@ -29,9 +36,19 @@ function Post({ post }: IPostProps): JSX.Element {
         </div>
         <div className={styles.postBottom}>
           <div className={styles.postBottomLeft}>
-            <img className={styles.likeIcon} src="../assets/like.png" alt="like icon" />
-            <img className={styles.likeIcon} src="../assets/heart.png" alt="heart icon" />
-            <span className={styles.postLikeCounter}>{post.like} people like it</span>
+            <img
+              className={styles.likeIcon}
+              src="../assets/like.png"
+              alt="like icon"
+              onClick={likeHandler}
+            />
+            <img
+              className={styles.likeIcon}
+              src="../assets/heart.png"
+              alt="heart icon"
+              onClick={likeHandler}
+            />
+            <span className={styles.postLikeCounter}>{like} people like it</span>
           </div>
           <div className={styles.postBottomRight}>
             <span className={styles.postCommentText}>{post.comment} comments</span>
