@@ -70,6 +70,16 @@
   background-color: #1775ee;
 }
 
+.loginButton:focus,
+.loginRegisterButton:focus {
+  outline: none;
+}
+
+.loginButton:disabled,
+.loginRegisterButton:disabled {
+  cursor: not-allowed;
+}
+
 .loginButton:hover {
   background-color: #1467d3;
 }

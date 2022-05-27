@@ -1,16 +1,30 @@
 import { MoreVert } from '@mui/icons-material';
-import React from 'react';
-import { IPost, Users } from '../../dummyData';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { format } from 'timeago.js';
+import { IPostData } from '../Feed/Feed.interface';
+import { IUser } from './Post.interface';
 import styles from './Post.module.css';
 
 interface IPostProps {
-  post: IPost;
+  post: IPostData;
 }
 
 function Post({ post }: IPostProps): JSX.Element {
-  const [like, setLike] = React.useState<number>(post.like);
+  const [like, setLike] = React.useState<number>(post.likes.length);
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
-  const user = Users.filter((u) => u.id === post.userId)[0];
+  const [user, setUser] = React.useState<IUser | null>(null);
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/api/users?userId=${post.userId}`);
+
+      setUser(res.data);
+    };
+    fetchUser();
+  }, [post.userId]);
 
   const likeHandler = () => {
     setLike((prev) => (isLiked ? prev - 1 : prev + 1));
@@ -22,9 +36,15 @@ function Post({ post }: IPostProps): JSX.Element {
       <div className={styles.postWrapper}>
         <div className={styles.postTop}>
           <div className={styles.postTopLeft}>
-            <img className={styles.postProfileImg} src={user && user.profilePicture} alt="avatar" />
+            <Link to={`profile/${user?.username}`}>
+              <img
+                className={styles.postProfileImg}
+                src={user?.profilePicture || `${PF}/person/noAvatar.png`}
+                alt="avatar"
+              />
+            </Link>
             <span className={styles.postUsername}>{user && user.username}</span>
-            <span className={styles.postDate}>{post.date}</span>
+            <span className={styles.postDate}>{format(post.createdAt)}</span>
           </div>
           <div className={styles.postTopRight}>
             <MoreVert />
@@ -32,7 +52,7 @@ function Post({ post }: IPostProps): JSX.Element {
         </div>
         <div className={styles.postCenter}>
           <span className={styles.postText}>{post?.desc}</span>
-          <img className={styles.postImg} src={post.photo} alt="post" />
+          <img className={styles.postImg} src={post?.img && PF + post.img} alt="post" />
         </div>
         <div className={styles.postBottom}>
           <div className={styles.postBottomLeft}>
@@ -51,7 +71,7 @@ function Post({ post }: IPostProps): JSX.Element {
             <span className={styles.postLikeCounter}>{like} people like it</span>
           </div>
           <div className={styles.postBottomRight}>
-            <span className={styles.postCommentText}>{post.comment} comments</span>
+            <span className={styles.postCommentText}>{0} comments</span>
           </div>
         </div>
       </div>

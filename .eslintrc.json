@@ -25,8 +25,13 @@
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
     "no-shadow": "off",
+    "no-nested-ternary": "off",
+    "react/jsx-no-constructed-context-values": "off",
     "import/no-cycle": "off",
+    "react/destructuring-assignment": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/button-has-type": "off",
+    "no-underscore-dangle": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "quotes": [

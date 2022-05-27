@@ -1,12 +1,15 @@
 import { Chat, Notifications, Person, Search } from '@mui/icons-material';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Topbar.module.css';
 
 function Topbar(): JSX.Element {
   return (
     <div className={styles.topbarContainer}>
       <div className={styles.topbarLeft}>
-        <span className={styles.logo}>Lamasocial</span>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <span className={styles.logo}>Lamasocial</span>
+        </Link>
       </div>
       <div className={styles.topbarCenter}>
         <div className={styles.searchbar}>

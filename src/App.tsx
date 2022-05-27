@@ -1,7 +1,21 @@
-import { Home } from './pages';
+import { useContext } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
+import { Home, Login, Profile, Register } from './pages';
 
 function App(): JSX.Element {
-  return <Home />;
+  const { user } = useContext(AuthContext);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={user ? <Home /> : <Register />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+        <Route path="/profile/:username" element={<Profile />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

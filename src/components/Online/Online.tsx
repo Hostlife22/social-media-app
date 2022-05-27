@@ -7,10 +7,11 @@ interface OnlineProps {
 }
 
 function Online({ user }: OnlineProps): JSX.Element {
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
   return (
     <li className={styles.rightbarFriend}>
       <div className={styles.rightbarProfileImgContainer}>
-        <img className={styles.rightbarProfileImg} src={user.profilePicture} alt="avatar" />
+        <img className={styles.rightbarProfileImg} src={PF + user.profilePicture} alt="avatar" />
         <span className={styles.rightbarOnline} />
       </div>
       <span className={styles.rightbarUsername}>{user.username}</span>

@@ -7,9 +7,10 @@ interface FriendProps {
 }
 
 function Friend({ user }: FriendProps): JSX.Element {
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
   return (
     <li className={styles.sidebarFriend}>
-      <img className={styles.sidebarFriendImg} src={user.profilePicture} alt="avatar" />
+      <img className={styles.sidebarFriendImg} src={PF + user.profilePicture} alt="avatar" />
       <span className={styles.sidebarFriendName}>{user.username}</span>
     </li>
   );

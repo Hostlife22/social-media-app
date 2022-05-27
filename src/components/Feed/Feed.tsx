@@ -1,15 +1,32 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Post, Share } from '..';
-import { Posts } from '../../dummyData';
+import { IPostData } from './Feed.interface';
 import styles from './Feed.module.css';
 
-function Feed() {
+interface IFeedProps {
+  username?: string;
+}
+
+function Feed({ username }: IFeedProps): JSX.Element {
+  const [post, setPosts] = useState<IPostData[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = username
+        ? await axios.get(`/api/posts/profile/${username}`)
+        : await axios.get('/api/posts/timeline/6277ceb4d1d1ee1779d2861a');
+      setPosts(res.data);
+    };
+    fetchPosts();
+  }, [username]);
+
   return (
     <div className={styles.feed}>
       <div className={styles.feedWrapper}>
         <Share />
-        {Posts.map((post) => (
-          <Post key={post.id} post={post} />
+        {post.map((p) => (
+          <Post key={p._id} post={p} />
         ))}
       </div>
     </div>
