@@ -70,6 +70,16 @@
   background-color: #1775ee;
 }
 
+.loginRegisterButton {
+  align-self: center;
+  width: 60%;
+  background-color: #42b72a;
+}
+
+.loginRegisterButton:hover {
+  background-color: #3a9e26;
+}
+
 .loginButton:focus,
 .loginRegisterButton:focus {
   outline: none;
@@ -88,14 +98,4 @@
   color: #1775ee;
   text-align: center;
   cursor: pointer;
-}
-
-.loginRegisterButton {
-  align-self: center;
-  width: 60%;
-  background-color: #42b72a;
-}
-
-.loginRegisterButton:hover {
-  background-color: #3a9e26;
 }
