@@ -1,9 +1,13 @@
 import { Chat, Notifications, Person, Search } from '@mui/icons-material';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import styles from './Topbar.module.css';
 
 function Topbar(): JSX.Element {
+  const { user } = useContext(AuthContext);
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+
   return (
     <div className={styles.topbarContainer}>
       <div className={styles.topbarLeft}>
@@ -36,7 +40,13 @@ function Topbar(): JSX.Element {
             <span className={styles.topbarIconBage}>1</span>
           </div>
         </div>
-        <img src="../assets/person/1.jpeg" alt="logo" className={styles.topbarImg} />
+        <Link to={`/profile/${user?.username}`}>
+          <img
+            src={user?.profilePicture ? PF + user.profilePicture : `${PF}person/noAvatar.png`}
+            alt="logo"
+            className={styles.topbarImg}
+          />
+        </Link>
       </div>
     </div>
   );

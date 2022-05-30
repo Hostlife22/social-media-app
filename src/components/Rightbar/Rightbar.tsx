@@ -1,18 +1,17 @@
-import React from 'react';
+import { Add, Remove } from '@mui/icons-material';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Online } from '..';
+import { AuthContext } from '../../context/AuthContext';
+import { Action, AuthActionEnum } from '../../context/AuthInterface';
 import { Users } from '../../dummyData';
-import { IUser } from '../Post/Post.interface';
+import { IFriends, IProfileProps, IRightbarProps } from './Rightbar.interface';
 import styles from './Rightbar.module.css';
-
-interface IRightbarProps {
-  user: IUser | null;
-}
-interface IProfileProps {
-  user: IUser;
-}
 
 function HomeRightbar(): JSX.Element {
   const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+
   return (
     <>
       <div className={styles.birthdayContainer}>
@@ -34,8 +33,59 @@ function HomeRightbar(): JSX.Element {
 
 function ProfileRightbar({ user }: IProfileProps): JSX.Element {
   const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const [friends, setFriends] = useState<IFriends[]>([]);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
+  const [followed, setFollowed] = useState<boolean>(
+    Boolean(currentUser?.followins.includes(user?._id)),
+  );
+
+  useEffect(() => {
+    const isFollowed = Boolean(currentUser?.followins.includes(user?._id));
+
+    setFollowed(isFollowed);
+  }, [currentUser, user?._id]);
+
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+        const friendList = await axios.get<IFriends[]>(`/api/users/friends/${user?._id}`);
+        setFriends(friendList.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getFriends();
+  }, [user]);
+
+  const handleClick = async () => {
+    const userId = { userId: currentUser?._id };
+    try {
+      if (followed) {
+        await axios.put(`/api/users/${user?._id}/unfollow`, userId);
+
+        if (dispatch) {
+          dispatch({
+            type: AuthActionEnum.UNFOLLOW,
+            payload: user?._id,
+          } as Action);
+        }
+      } else {
+        await axios.put(`/api/users/${user?._id}/follow`, userId);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setFollowed((prev) => !prev);
+  };
   return (
     <>
+      {user?.username !== currentUser?.username && (
+        <button className={styles.rightbarFollowButton} onClick={handleClick}>
+          {followed ? 'Unfollow' : 'Follow'}
+          {followed ? <Remove /> : <Add />}
+        </button>
+      )}
       <h4 className={styles.rightbarTitle}>User information</h4>
       <div className={styles.rightbarInfo}>
         <div className={styles.rightbarInfoItem}>
@@ -55,30 +105,21 @@ function ProfileRightbar({ user }: IProfileProps): JSX.Element {
       </div>
       <h4 className={styles.rightbarTitle}>User friends</h4>
       <div className={styles.rightbarFollowings}>
-        <div className={styles.rightbarFollowing}>
-          <img className={styles.rightbarFollowingImg} src={`${PF}person/1.jpeg`} alt="avatar" />
-          <span className={styles.rightbarFollowingName}>John Carter</span>
-        </div>
-        <div className={styles.rightbarFollowing}>
-          <img className={styles.rightbarFollowingImg} src={`${PF}person/2.jpeg`} alt="avatar" />
-          <span className={styles.rightbarFollowingName}>John Carter</span>
-        </div>
-        <div className={styles.rightbarFollowing}>
-          <img className={styles.rightbarFollowingImg} src={`${PF}person/3.jpeg`} alt="avatar" />
-          <span className={styles.rightbarFollowingName}>John Carter</span>
-        </div>
-        <div className={styles.rightbarFollowing}>
-          <img className={styles.rightbarFollowingImg} src={`${PF}person/4.jpeg`} alt="avatar" />
-          <span className={styles.rightbarFollowingName}>John Carter</span>
-        </div>
-        <div className={styles.rightbarFollowing}>
-          <img className={styles.rightbarFollowingImg} src={`${PF}person/5.jpeg`} alt="avatar" />
-          <span className={styles.rightbarFollowingName}>John Carter</span>
-        </div>
-        <div className={styles.rightbarFollowing}>
-          <img className={styles.rightbarFollowingImg} src="./assets/person/6.jpeg" alt="avatar" />
-          <span className={styles.rightbarFollowingName}>John Carter</span>
-        </div>
+        {friends.map((friend) => (
+          <Link
+            to={`/profile/${friend.username}`}
+            style={{ textDecoration: 'none' }}
+            key={friend._id}>
+            <div className={styles.rightbarFollowing}>
+              <img
+                className={styles.rightbarFollowingImg}
+                src={friend?.profilePicture ? friend.profilePicture : `${PF}person/noAvatar.png`}
+                alt="avatar"
+              />
+              <span className={styles.rightbarFollowingName}>{friend.username}</span>
+            </div>
+          </Link>
+        ))}
       </div>
     </>
   );

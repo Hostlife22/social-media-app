@@ -17,7 +17,7 @@ function Profile() {
       setUser(res.data);
     };
     fetchUser();
-  }, []);
+  }, [username]);
 
   return (
     <>
@@ -29,12 +29,12 @@ function Profile() {
             <div className={styles.profileCover}>
               <img
                 className={styles.profileCoverImg}
-                src={user?.coverPicture || `${PF}post/3.jpeg`}
+                src={user?.coverPicture ? PF + user.coverPicture : `${PF}post/3.jpeg`}
                 alt="bg"
               />
               <img
                 className={styles.profileUserImg}
-                src={user?.coverPicture || `${PF}person/noAvatar.png`}
+                src={user?.coverPicture ? PF + user.coverPicture : `${PF}person/noAvatar.png`}
                 alt="bg"
               />
             </div>

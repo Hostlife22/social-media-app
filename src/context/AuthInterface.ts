@@ -4,6 +4,8 @@ export enum AuthActionEnum {
   LOGIN_START = 'LOGIN_START',
   LOGIN_SUCCESS = 'LOGIN_SUCCESS',
   LOGIN_FAILURE = 'LOGIN_FAILURE',
+  FOLLOW = 'FOLLOW',
+  UNFOLLOW = 'UNFOLLOW',
 }
 
 export interface PayloadUser {
@@ -12,8 +14,8 @@ export interface PayloadUser {
   email: string;
   profilePicture: string;
   coverPicture: string;
-  followers: number[];
-  followins: number[];
+  followers: string[];
+  followins: string[];
   isAdmin: boolean;
   desc: string;
   city: string;
@@ -26,7 +28,9 @@ export interface PayloadUser {
 export type Action =
   | { type: AuthActionEnum.LOGIN_START }
   | { type: AuthActionEnum.LOGIN_SUCCESS; payload: PayloadUser }
-  | { type: AuthActionEnum.LOGIN_FAILURE; payload: Error };
+  | { type: AuthActionEnum.LOGIN_FAILURE; payload: Error }
+  | { type: AuthActionEnum.FOLLOW; payload: string | undefined }
+  | { type: AuthActionEnum.UNFOLLOW; payload: string | undefined };
 
 export interface AuthAction {
   type: AuthActionEnum;

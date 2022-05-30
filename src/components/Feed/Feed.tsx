@@ -1,30 +1,30 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Post, Share } from '..';
-import { IPostData } from './Feed.interface';
+import { AuthContext } from '../../context/AuthContext';
+import sortDate from '../../helpers';
+import { IFeedProps, IPostData } from './Feed.interface';
 import styles from './Feed.module.css';
-
-interface IFeedProps {
-  username?: string;
-}
 
 function Feed({ username }: IFeedProps): JSX.Element {
   const [post, setPosts] = useState<IPostData[]>([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const res = username
-        ? await axios.get(`/api/posts/profile/${username}`)
-        : await axios.get('/api/posts/timeline/6277ceb4d1d1ee1779d2861a');
-      setPosts(res.data);
+        ? await axios.get<IPostData[]>(`/api/posts/profile/${username}`)
+        : await axios.get<IPostData[]>(`/api/posts/timeline/${user?._id}`);
+      setPosts(res.data.sort((p1, p2) => sortDate(new Date(p2.createdAt), new Date(p1.createdAt))));
     };
+
     fetchPosts();
-  }, [username]);
+  }, [username, user?._id]);
 
   return (
     <div className={styles.feed}>
       <div className={styles.feedWrapper}>
-        <Share />
+        {(!username || username === user?.username) && <Share />}
         {post.map((p) => (
           <Post key={p._id} post={p} />
         ))}

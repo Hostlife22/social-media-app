@@ -7,3 +7,7 @@ export interface IPostData {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IFeedProps {
+  username?: string;
+}

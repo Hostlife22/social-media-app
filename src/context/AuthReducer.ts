@@ -20,7 +20,27 @@ function AuthReducer(state: IState, action: Action) {
         isFetching: false,
         error: true,
       };
-
+    case AuthActionEnum.FOLLOW: {
+      const userFollowings = state.user?.followins || [];
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followins: [...userFollowings, action.payload],
+        },
+      };
+    }
+    case AuthActionEnum.UNFOLLOW: {
+      const userUnfollowings =
+        state.user?.followins.filter((following) => following !== action.payload) || [];
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followins: userUnfollowings,
+        },
+      };
+    }
     default:
       return state;
   }

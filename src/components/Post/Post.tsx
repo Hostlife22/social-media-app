@@ -1,8 +1,9 @@
 import { MoreVert } from '@mui/icons-material';
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
+import { AuthContext } from '../../context/AuthContext';
 import { IPostData } from '../Feed/Feed.interface';
 import { IUser } from './Post.interface';
 import styles from './Post.module.css';
@@ -16,6 +17,13 @@ function Post({ post }: IPostProps): JSX.Element {
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
   const [user, setUser] = React.useState<IUser | null>(null);
   const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const { user: currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (currentUser) {
+      setIsLiked(post.likes.includes(currentUser._id));
+    }
+  }, [currentUser?._id, post.likes]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,6 +35,11 @@ function Post({ post }: IPostProps): JSX.Element {
   }, [post.userId]);
 
   const likeHandler = () => {
+    try {
+      axios.put(`/api/posts/${post._id}/like`, { userId: currentUser?._id });
+    } catch (err) {
+      console.log(err);
+    }
     setLike((prev) => (isLiked ? prev - 1 : prev + 1));
     setIsLiked((prev) => !prev);
   };
@@ -39,7 +52,7 @@ function Post({ post }: IPostProps): JSX.Element {
             <Link to={`profile/${user?.username}`}>
               <img
                 className={styles.postProfileImg}
-                src={user?.profilePicture || `${PF}/person/noAvatar.png`}
+                src={user?.profilePicture ? PF + user.profilePicture : `${PF}/person/noAvatar.png`}
                 alt="avatar"
               />
             </Link>
