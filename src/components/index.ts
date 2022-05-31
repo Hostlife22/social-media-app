@@ -6,6 +6,7 @@ export { default as Message } from './Message/Message';
 export { default as Online } from './Online/Online';
 export { default as Post } from './Post/Post';
 export { default as Rightbar } from './Rightbar/Rightbar';
+export { default as SearchList } from './SearchList/SearchList';
 export { default as Share } from './Share/Share';
 export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as Topbar } from './Topbar/Topbar';

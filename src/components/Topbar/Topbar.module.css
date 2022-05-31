@@ -22,6 +22,7 @@
 }
 
 .topbarCenter {
+  position: relative;
   flex: 5;
 }
 
