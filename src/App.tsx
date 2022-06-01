@@ -12,7 +12,7 @@ function App(): JSX.Element {
         <Route path="/" element={user ? <Home /> : <Register />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-        <Route path="/messenger" element={user ? <Navigate to="/" /> : <Messenger />} />
+        <Route path="/messenger" element={user ? <Messenger /> : <Register />} />
         <Route path="/profile/:username" element={<Profile />} />
       </Routes>
     </BrowserRouter>

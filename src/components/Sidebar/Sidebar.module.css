@@ -56,3 +56,8 @@
   padding: 0;
   list-style: none;
 }
+
+.sidebarListLink {
+  color: inherit;
+  text-decoration: none;
+}

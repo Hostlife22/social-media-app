@@ -10,11 +10,13 @@ import {
   WorkOutline,
 } from '@mui/icons-material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Friend } from '..';
 import { Users } from '../../dummyData';
 import styles from './Sidebar.module.css';
 
 function Sidebar() {
+  const navigate = useNavigate();
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarWrapper}>
@@ -23,7 +25,7 @@ function Sidebar() {
             <RssFeed className={styles.sidebarIcon} />
             <span className={styles.sidebarListItemText}>Feed</span>
           </li>
-          <li className={styles.sidebarListItem}>
+          <li className={styles.sidebarListItem} onClick={() => navigate('/messenger')}>
             <Chat className={styles.sidebarIcon} />
             <span className={styles.sidebarListItemText}>Chats</span>
           </li>
