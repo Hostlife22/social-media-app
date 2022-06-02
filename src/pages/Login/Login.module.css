@@ -9,6 +9,7 @@
 
 .loginWrapper {
   display: flex;
+  gap: 20px;
   width: 70%;
   height: 70%;
 }
@@ -98,4 +99,20 @@
   color: #1775ee;
   text-align: center;
   cursor: pointer;
+}
+
+@media screen and (max-width: 670px) {
+  .loginLogo {
+    font-size: 42px;
+    text-align: center;
+  }
+
+  .loginDesc {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .loginWrapper {
+    flex-direction: column;
+  }
 }

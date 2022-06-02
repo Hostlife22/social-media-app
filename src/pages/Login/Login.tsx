@@ -23,9 +23,9 @@ function Login() {
     <div className={styles.login}>
       <div className={styles.loginWrapper}>
         <div className={styles.loginLeft}>
-          <h3 className={styles.loginLogo}>Lamasocial</h3>
+          <h3 className={styles.loginLogo}>Hostlive</h3>
           <span className={styles.loginDesc}>
-            Connect with friends and the world around you on Lamasocial.
+            Connect with friends and the world around you on Hostlive.
           </span>
         </div>
         <div className={styles.loginRight}>

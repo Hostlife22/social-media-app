@@ -33,6 +33,12 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sidebarListItem:hover {
+  background-color: #f1f1f1;
 }
 
 .sidebarIcon {

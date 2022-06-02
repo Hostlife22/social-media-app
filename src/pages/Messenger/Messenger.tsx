@@ -1,17 +1,51 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
 import { ChatOnline, Conversation, Message, Topbar } from '../../components';
 import { AuthContext } from '../../context/AuthContext';
-import { IConversations, IMessage } from './Messenger.interface';
+import {
+  IArrivalMessage,
+  IConversations,
+  IMessage,
+  IOnlineUsers,
+  ISocketUsers,
+} from './Messenger.interface';
 import styles from './Messenger.module.css';
 
 function Messenger() {
   const [conversations, setConversations] = useState<IConversations[]>([]);
   const [currentChat, setCurrentChat] = useState<IConversations | null>(null);
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<any>([]);
   const [newMessage, setNewMessage] = useState<string>('');
+  const [arrivalMessage, setArrivalMessage] = useState<IArrivalMessage | null>(null);
+  const [onlineUsers, setOnlineUsers] = useState<IOnlineUsers>([]);
+  const socket = useRef<any>();
   const { user } = useContext(AuthContext);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    socket.current = io('ws://localhost:8900');
+    socket.current.on('getMessage', (data: any) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev: any) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
+
+  useEffect(() => {
+    socket.current.emit('addUser', user?._id);
+    socket.current.on('getUsers', (users: ISocketUsers[]) => {
+      setOnlineUsers(user?.followins.filter((f) => users.some((u) => u.userId === f)));
+    });
+  }, [user]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -46,6 +80,14 @@ function Messenger() {
       conversationId: String(currentChat?._id),
     };
 
+    const receiverId = currentChat?.members.find((member) => member !== user?._id);
+
+    socket.current.emit('sendMessage', {
+      senderId: user?._id,
+      receiverId,
+      text: newMessage,
+    });
+
     try {
       const res = await axios.post<IMessage>('/api/messages', message);
       setMessages([...messages, res.data]);
@@ -78,7 +120,7 @@ function Messenger() {
             {currentChat ? (
               <>
                 <div className={styles.chatBoxTop}>
-                  {messages.map((m) => (
+                  {messages.map((m: any) => (
                     <div key={String(m.createdAt)} ref={scrollRef}>
                       <Message message={m} own={m.sender === user?._id} />
                     </div>
@@ -103,7 +145,11 @@ function Messenger() {
         </div>
         <div className={styles.chatOnline}>
           <div className={styles.chatOnlineWrapper}>
-            <ChatOnline />
+            <ChatOnline
+              onlineUsers={onlineUsers}
+              currentId={user?._id}
+              setCurrentChat={setCurrentChat}
+            />
           </div>
         </div>
       </div>

@@ -55,7 +55,7 @@ function Topbar(): JSX.Element {
     <div className={styles.topbarContainer}>
       <div className={styles.topbarLeft}>
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <span className={styles.logo}>Lamasocial</span>
+          <span className={styles.logo}>Hostlive</span>
         </Link>
       </div>
       <div className={styles.topbarCenter}>
@@ -67,18 +67,24 @@ function Topbar(): JSX.Element {
       </div>
       <div className={styles.topbarRight}>
         <div className={styles.topbarLinks}>
-          <span className={styles.topbarLink}>Homepage</span>
-          <span className={styles.topbarLink}>Timeline</span>
+          <Link className={styles.topbarLinksItem} to={`/profile/${user?.username}`}>
+            <span className={styles.topbarLink}>Homepage</span>
+          </Link>
+          <Link to="/" className={styles.topbarLinksItem}>
+            <span className={styles.topbarLink}>Timeline</span>
+          </Link>
         </div>
         <div className={styles.topbarIcons}>
           <div className={styles.topbarIconItem}>
             <Person />
             <span className={styles.topbarIconBage}>1</span>
           </div>
-          <div className={styles.topbarIconItem}>
-            <Chat />
-            <span className={styles.topbarIconBage}>2</span>
-          </div>
+          <Link to="/messenger" className={styles.topbarLinksItem}>
+            <div className={styles.topbarIconItem}>
+              <Chat />
+              <span className={styles.topbarIconBage}>2</span>
+            </div>
+          </Link>
           <div className={styles.topbarIconItem}>
             <Notifications />
             <span className={styles.topbarIconBage}>1</span>
