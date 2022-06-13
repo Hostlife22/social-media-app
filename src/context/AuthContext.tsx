@@ -11,6 +11,7 @@ const initialState = {
 export const AuthContext = createContext<IState>(initialState);
 
 export function AuthContextProvider({ children }: { children: JSX.Element }) {
+  // @ts-ignore
   const [state, dispatch] = useReducer(AuthReducer, initialState);
   const { user, isFetching, error } = state;
 
