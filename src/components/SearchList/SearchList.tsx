@@ -4,7 +4,7 @@ import { ISearchListType, ISearchProps } from './SearchList.interface';
 import styles from './SearchList.module.css';
 
 const SearchList = React.forwardRef(({ user }: ISearchProps, ref: ISearchListType) => {
-  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
   return (
     <div className={styles.searchList} ref={ref}>
       {user ? (

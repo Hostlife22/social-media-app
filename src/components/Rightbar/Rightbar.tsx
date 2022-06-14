@@ -1,6 +1,6 @@
 import { Add, Remove } from '@mui/icons-material';
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Online } from '..';
 import { AuthContext } from '../../context/AuthContext';
@@ -10,7 +10,7 @@ import { IFriends, IProfileProps, IRightbarProps } from './Rightbar.interface';
 import styles from './Rightbar.module.css';
 
 function HomeRightbar(): JSX.Element {
-  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
 
   return (
     <>
@@ -32,7 +32,7 @@ function HomeRightbar(): JSX.Element {
 }
 
 function ProfileRightbar({ user }: IProfileProps): JSX.Element {
-  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
   const [friends, setFriends] = useState<IFriends[]>([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState<boolean>(

@@ -8,5 +8,8 @@ export default defineConfig({
       '/api': 'https://social-api-hostlife.herokuapp.com/',
     },
   },
+  define: {
+    'process.env': process.env,
+  },
   plugins: [react()],
 });

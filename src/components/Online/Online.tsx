@@ -1,4 +1,3 @@
-import React from 'react';
 import { IUser } from '../../dummyData';
 import styles from './Online.module.css';
 
@@ -7,7 +6,7 @@ interface OnlineProps {
 }
 
 function Online({ user }: OnlineProps): JSX.Element {
-  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
   return (
     <li className={styles.rightbarFriend}>
       <div className={styles.rightbarProfileImgContainer}>

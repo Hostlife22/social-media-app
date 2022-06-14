@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IConversations } from '../../pages/Messenger/Messenger.interface';
 import { IChatFriend, IChatOnlineProps } from './ChatOnline.interface';
 import styles from './ChatOnline.module.css';
@@ -7,7 +7,7 @@ import styles from './ChatOnline.module.css';
 function ChatOnline({ onlineUsers, currentId, setCurrentChat }: IChatOnlineProps) {
   const [friends, setFriends] = useState<IChatFriend[]>([]);
   const [onlineFriends, setOnlineFriends] = useState<IChatFriend[]>([]);
-  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
 
   useEffect(() => {
     const getFriends = async () => {

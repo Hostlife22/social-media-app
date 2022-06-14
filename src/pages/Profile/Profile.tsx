@@ -8,7 +8,7 @@ import styles from './Profile.module.css';
 function Profile() {
   const [user, setUser] = useState<IUser | null>(null);
   const { username } = useParams<{ username?: string }>();
-  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
 
   useEffect(() => {
     const fetchUser = async () => {
