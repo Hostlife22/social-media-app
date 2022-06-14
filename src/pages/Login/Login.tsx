@@ -18,13 +18,16 @@ function Login() {
       loginCall({ email: email.current?.value, password: password.current?.value }, dispatch);
     }
   };
+
+  const log = process.env.VITE_APP_PUBLICK_FOLDER;
+
   console.log(process.env.VITE_APP_PUBLICK_FOLDER);
 
   return (
     <div className={styles.login}>
       <div className={styles.loginWrapper}>
         <div className={styles.loginLeft}>
-          <h3 className={styles.loginLogo}>Hostlive</h3>
+          <h3 className={styles.loginLogo}>Hostlive {log}</h3>
           <span className={styles.loginDesc}>
             Connect with friends and the world around you on Hostlive.
           </span>
