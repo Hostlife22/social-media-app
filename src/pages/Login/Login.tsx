@@ -18,6 +18,7 @@ function Login() {
       loginCall({ email: email.current?.value, password: password.current?.value }, dispatch);
     }
   };
+  console.log(import.meta.env.VITE_APP_PUBLICK_FOLDER);
 
   return (
     <div className={styles.login}>
