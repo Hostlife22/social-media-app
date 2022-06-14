@@ -9,7 +9,6 @@ export default defineConfig({
         target: 'https://social-api-hostlife.herokuapp.com/',
         changeOrigin: true,
         secure: false,
-        ws: true,
       },
     },
   },
