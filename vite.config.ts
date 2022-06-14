@@ -5,11 +5,13 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   server: {
     proxy: {
-      '/api': 'https://social-api-hostlife.herokuapp.com/',
+      '/api': {
+        target: 'https://social-api-hostlife.herokuapp.com/',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
     },
-  },
-  define: {
-    'process.env': process.env,
   },
   plugins: [react()],
 });

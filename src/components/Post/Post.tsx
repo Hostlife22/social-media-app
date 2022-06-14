@@ -16,7 +16,7 @@ function Post({ post }: IPostProps): JSX.Element {
   const [like, setLike] = React.useState<number>(post.likes.length);
   const [isLiked, setIsLiked] = React.useState<boolean>(false);
   const [user, setUser] = React.useState<IUser | null>(null);
-  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {

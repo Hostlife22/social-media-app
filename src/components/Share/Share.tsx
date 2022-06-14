@@ -7,7 +7,7 @@ import styles from './Share.module.css';
 
 function Share() {
   const { user } = useContext(AuthContext);
-  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
   const desc = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
 

@@ -6,7 +6,7 @@ import styles from './Conversation.module.css';
 
 function Conversation({ conversation, currentUser }: IConversationProps): JSX.Element {
   const [user, setUser] = useState<IUser | null>(null);
-  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
   useEffect(() => {
     const friendId = conversation.members.find((m) => m !== currentUser?._id);
 

@@ -9,7 +9,7 @@ import styles from './Topbar.module.css';
 
 function Topbar(): JSX.Element {
   const { user } = useContext(AuthContext);
-  const PF = process.env.VITE_APP_PUBLICK_FOLDER;
+  const PF = import.meta.env.VITE_APP_PUBLICK_FOLDER;
   const [modal, setModal] = useState<boolean>(false);
   const [findedUser, setFindedUser] = useState<IUser | null>(null);
   const searchRef = useRef<HTMLInputElement | null>(null);
